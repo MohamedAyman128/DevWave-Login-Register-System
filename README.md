@@ -66,7 +66,7 @@ A simple login and registration system built with vanilla JavaScript, HTML, and 
 
 ### File Structure
 ```
-DevWave/
+DevWave-Login-Register-System/
 ├── index.html          # Main login/register page
 ├── profile.html        # User profile page
 ├── styles.css          # All styling and responsive design
