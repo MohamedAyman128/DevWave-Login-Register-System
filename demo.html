@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Login & Register System</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .demo-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .demo-users {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .user-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .user-card strong {
+            color: #333;
+        }
+        
+        .user-card small {
+            color: #666;
+        }
+        
+        .demo-button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .demo-button:hover {
+            background: #5a6fd8;
+        }
+        
+        .demo-button.danger {
+            background: #dc3545;
+        }
+        
+        .demo-button.danger:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="demo-container">
+            <div class="demo-header">
+                <h1>🚀 Login & Register System Demo</h1>
+                <p>Test the authentication system with sample data</p>
+            </div>
+            
+            <div class="demo-actions">
+                <button class="demo-button" onclick="goToLogin()">Go to Login Page</button>
+                <button class="demo-button" onclick="createSampleUsers()">Create Sample Users</button>
+                <button class="demo-button danger" onclick="clearAllData()">Clear All Data</button>
+            </div>
+            
+            <div class="demo-section">
+                <h3>📊 Current Users in System</h3>
+                <div id="usersList">
+                    <p>No users found. Create some sample users to test the system.</p>
+                </div>
+            </div>
+            
+            <div class="demo-section">
+                <h3>🔧 Testing Instructions</h3>
+                <ol>
+                    <li><strong>Create Sample Users:</strong> Click "Create Sample Users" to add test accounts</li>
+                    <li><strong>Test Registration:</strong> Go to login page and register a new account</li>
+                    <li><strong>Test Login:</strong> Login with any of the sample users or your new account</li>
+                    <li><strong>Test Profile:</strong> View your profile information and logout</li>
+                    <li><strong>Test Validation:</strong> Try registering with duplicate emails or invalid data</li>
+                </ol>
+            </div>
+            
+            <div class="demo-section">
+                <h3>🧪 Sample Test Accounts</h3>
+                <div class="user-card">
+                    <strong>John Doe</strong><br>
+                    <small>Email: john@example.com | Password: password123</small>
+                </div>
+                <div class="user-card">
+                    <strong>Jane Smith</strong><br>
+                    <small>Email: jane@example.com | Password: password123</small>
+                </div>
+                <div class="user-card">
+                    <strong>Mike Johnson</strong><br>
+                    <small>Email: mike@example.com | Password: password123</small>
+                </div>
+            </div>
+            
+            <div class="demo-section">
+                <h3>📱 Current Session</h3>
+                <div id="sessionInfo">
+                    <p>No active session</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo functions
+        function goToLogin() {
+            window.location.href = 'index.html';
+        }
+        
+        function createSampleUsers() {
+            const sampleUsers = [
+                {
+                    name: 'John Doe',
+                    email: 'john@example.com',
+                    password: 'password123',
+                    registrationDate: new Date().toLocaleDateString(),
+                    id: 'user_demo_1'
+                },
+                {
+                    name: 'Jane Smith',
+                    email: 'jane@example.com',
+                    password: 'password123',
+                    registrationDate: new Date().toLocaleDateString(),
+                    id: 'user_demo_2'
+                },
+                {
+                    name: 'Mike Johnson',
+                    email: 'mike@example.com',
+                    password: 'password123',
+                    registrationDate: new Date().toLocaleDateString(),
+                    id: 'user_demo_3'
+                }
+            ];
+            
+            // Get existing users
+            const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Add sample users if they don't exist
+            sampleUsers.forEach(sampleUser => {
+                const exists = existingUsers.find(user => user.email === sampleUser.email);
+                if (!exists) {
+                    existingUsers.push(sampleUser);
+                }
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('users', JSON.stringify(existingUsers));
+            
+            alert('Sample users created successfully!');
+            displayUsers();
+        }
+        
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all user data? This cannot be undone.')) {
+                localStorage.removeItem('users');
+                localStorage.removeItem('currentUser');
+                alert('All data cleared successfully!');
+                displayUsers();
+                displaySession();
+            }
+        }
+        
+        function displayUsers() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const usersList = document.getElementById('usersList');
+            
+            if (users.length === 0) {
+                usersList.innerHTML = '<p>No users found. Create some sample users to test the system.</p>';
+                return;
+            }
+            
+            usersList.innerHTML = users.map(user => `
+                <div class="user-card">
+                    <strong>${user.name}</strong><br>
+                    <small>Email: ${user.email} | Registered: ${user.registrationDate}</small>
+                </div>
+            `).join('');
+        }
+        
+        function displaySession() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            const sessionInfo = document.getElementById('sessionInfo');
+            
+            if (!currentUser) {
+                sessionInfo.innerHTML = '<p>No active session</p>';
+                return;
+            }
+            
+            sessionInfo.innerHTML = `
+                <div class="user-card">
+                    <strong>Logged in as: ${currentUser.name}</strong><br>
+                    <small>Email: ${currentUser.email} | Login Time: ${new Date(currentUser.loginTime).toLocaleString()}</small>
+                </div>
+            `;
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            displayUsers();
+            displaySession();
+        });
+        
+        // Refresh data every 2 seconds
+        setInterval(function() {
+            displayUsers();
+            displaySession();
+        }, 2000);
+    </script>
+</body>
+</html>

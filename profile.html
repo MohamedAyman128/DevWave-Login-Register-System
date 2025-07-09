@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Login & Register System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-wrapper">
+            <div class="profile-header">
+                <h1>Welcome to your Profile</h1>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-card">
+                    <h2>User Information</h2>
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <strong>Name:</strong>
+                            <span id="userName"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Email:</strong>
+                            <span id="userEmail"></span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Registration Date:</strong>
+                            <span id="registrationDate"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="btn-secondary" onclick="goToHome()">Back to Home</button>
+                        <button class="btn-danger" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Message -->
+        <div id="alertMessage" class="alert hidden">
+            <span id="alertText"></span>
+            <button class="alert-close" onclick="hideAlert()">&times;</button>
+        </div>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+</html>
